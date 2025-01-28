@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn fwlimo.wsgi
+web: python manage.py migrate && gunicorn inmaa.wsgi
