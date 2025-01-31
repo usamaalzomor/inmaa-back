@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hlbsg1w9z8h2@p65hc$z=ssbykxkfk+_75x)kb7uvy57=3+wq2'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ["vicious-katleen-inmaa-611bcf31.koyeb.app"]
+ALLOWED_HOSTS = ["vicious-katleen-inmaa-611bcf31.koyeb.app", "127.0.0.1"]
 
 
 # Application definition
@@ -85,8 +85,6 @@ WSGI_APPLICATION = 'inmaa.wsgi.application'
 DATABASES = {
     'default': env.db("DATABASE_URL"),
 }
-
-print(DATABASES)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
