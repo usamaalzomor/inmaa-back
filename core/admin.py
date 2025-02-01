@@ -1,3 +1,6 @@
 from django.contrib import admin
+from core.models import Service
 
-# Register your models here.
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'icon')

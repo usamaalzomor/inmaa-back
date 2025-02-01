@@ -12,6 +12,7 @@ jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
 packaging==24.2
 phonenumbers==8.13.53
+pillow==11.1.0
 psycopg2==2.9.10
 PyYAML==6.0.2
 referencing==0.36.2

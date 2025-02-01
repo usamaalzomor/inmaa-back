@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from core.models import Service
+from core.serializers import ServiceSerializer
 
-# Create your views here.
+class ServiceViewSet(ReadOnlyModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
