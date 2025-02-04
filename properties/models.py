@@ -1,16 +1,6 @@
 from django.db import models
-from django.contrib.gis.db import models as gis_models
 from django.core.validators import MinValueValidator
-from core.models import City
-
-
-class Address(models.Model):
-    city = models.ForeignKey(City, on_delete=models.PROTECT)
-    postal_code = models.CharField(max_length=20)
-    location = gis_models.PointField()
-
-    def __str__(self):
-        return f"{self.city.state.name}, {self.city.name}"
+from core.models import City, State
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -60,9 +50,9 @@ class Property(models.Model):
     bathrooms = models.PositiveIntegerField()
     
     # Location
-    address = models.OneToOneField(Address, on_delete=models.PROTECT)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, default=1)
+    state = models.ForeignKey(State, on_delete=models.PROTECT, default=1)
 
-    
     # Additional Info
     description = models.TextField(blank=True)
     amenities = models.ManyToManyField(Amenity, blank=True)
