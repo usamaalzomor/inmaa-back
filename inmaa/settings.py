@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'drf_spectacular_sidecar',
     'users',
     'core',
+    'properties',
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,8 @@ WSGI_APPLICATION = 'inmaa.wsgi.application'
 DATABASES = {
     'default': env.db("DATABASE_URL"),
 }
+
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
