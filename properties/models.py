@@ -70,7 +70,7 @@ class Property(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.property_type} @ {self.address}"
+        return f"{self.property_type} @ {self.city.name}"
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='images')
