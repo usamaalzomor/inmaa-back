@@ -8,11 +8,13 @@ class PropertyListSerializer(serializers.ModelSerializer):
     state = serializers.CharField(source='state.name', read_only=True)
     category = serializers.CharField(source='category.name', read_only=True)
     property_type = serializers.CharField(source='property_type.name', read_only=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Property
         fields = [
             'id',
+            'image',
             'operation',
             'price',
             'area',
@@ -23,6 +25,10 @@ class PropertyListSerializer(serializers.ModelSerializer):
             'category',
             'property_type',
         ]
+
+    def get_image(self, obj):
+        image = obj.images.filter(is_main=True).first()
+        return image.image.url if image else None
 
 # Serializers for nested related objects
 class CitySerializer(serializers.ModelSerializer):
