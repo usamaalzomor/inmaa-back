@@ -1,12 +1,9 @@
-# properties/serializers.py
-
 from rest_framework import serializers
 from .models import Property, PropertyImage, Amenity, Category, PropertyType
 from core.models import City, State
 
-# Serializer for listing (only the required fields)
+
 class PropertyListSerializer(serializers.ModelSerializer):
-    # Return only the name of each related field
     city = serializers.CharField(source='city.name', read_only=True)
     state = serializers.CharField(source='state.name', read_only=True)
     category = serializers.CharField(source='category.name', read_only=True)
@@ -60,15 +57,17 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 
 # Serializer for detailed view (all fields)
 class PropertyDetailSerializer(serializers.ModelSerializer):
-    city = CitySerializer(read_only=True)
-    state = StateSerializer(read_only=True)
-    category = CategorySerializer(read_only=True)
-    property_type = PropertyTypeSerializer(read_only=True)
+    city = property_type = serializers.CharField(source='city.name')
+    state = property_type = serializers.CharField(source='state.name')
+    category = serializers.CharField(source='category.name')
+    property_type = serializers.CharField(source='property_type.name')
     # Many-to-many and reverse relations:
     amenities = AmenitySerializer(many=True, read_only=True)
     images = PropertyImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Property
-        # Using '__all__' to include every field on the model
-        fields = '__all__'
+        fields = ['id', 'images', 'category', 'property_type', 'operation', 'price',
+                'area', 'furniture_included', 'floor', 'rooms', 'bathrooms',
+                'amenities', 'description', 'year_built', 'city', 'state'
+                ]
