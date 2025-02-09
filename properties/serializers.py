@@ -9,6 +9,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source='category.name', read_only=True)
     property_type = serializers.CharField(source='property_type.name', read_only=True)
     image = serializers.SerializerMethodField()
+    is_in_wishlist = serializers.SerializerMethodField()
 
     class Meta:
         model = Property
@@ -18,14 +19,21 @@ class PropertyListSerializer(serializers.ModelSerializer):
             'operation',
             'price',
             'area',
+            'floor',
             'rooms',
             'bathrooms',
             'city',
             'state',
             'category',
             'property_type',
-        ]
+            'usage_type',
+            'status',
+            'is_in_wishlist',
+            ]
 
+    def get_is_in_wishlist(self, obj):
+        return False
+    
     def get_image(self, obj):
         image = obj.images.filter(is_main=True).first()
         return image.image.url if image else None
@@ -70,10 +78,15 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
     # Many-to-many and reverse relations:
     amenities = AmenitySerializer(many=True, read_only=True)
     images = PropertyImageSerializer(many=True, read_only=True)
+    is_in_wishlist = serializers.CharField(read_only=True)
 
     class Meta:
         model = Property
         fields = ['id', 'images', 'category', 'property_type', 'operation', 'price',
-                'area', 'furniture_included', 'floor', 'rooms', 'bathrooms',
-                'amenities', 'description', 'year_built', 'city', 'state'
+                'area', 'furniture_included', 'floor', 'rooms', 'bathrooms', 'usage_type',
+                'amenities', 'description', 'year_built', 'city', 'state', 'status',
+                'is_in_wishlist', 'latitude', 'longitude'
                 ]
+
+    def get_is_in_wishlist(self, obj):
+        return False

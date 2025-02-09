@@ -27,14 +27,42 @@ class Amenity(models.Model):
         return self.name
 
 class Property(models.Model):
+    USAGE_CHOICES = [
+        ('residential', 'سكنية'),
+        ('commercial', 'تجارية'),
+        ('industrial', 'صناعية'),
+        ('agricultural', 'زراعية'),
+        ('administrative', 'إدارية'),
+        ('touristic', 'سياحية'),
+    ]
+
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('booked', 'Booked'),
+        ('rented', 'Rented'),
+        ('sold', 'Sold'),
+    ]
+
     OPERATION_CHOICES = [
         ('for_rent', 'For Rent'),
         ('for_sale', 'For Sale'),
     ]
-    
+
     # Core Information
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     property_type = models.ForeignKey(PropertyType, on_delete=models.PROTECT)
+    usage_type = models.CharField(max_length=20, choices=USAGE_CHOICES,
+                                default='residential', null=False, blank=False,
+                                help_text="Select the type of usage (commercial, industrial, residential)"
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='available',
+        help_text="Indicates whether the property is available, booked, or finished (rented/sold)"
+    )
+
     operation = models.CharField(max_length=15, choices=OPERATION_CHOICES)
     price = models.DecimalField(
         max_digits=12,
@@ -52,6 +80,8 @@ class Property(models.Model):
     # Location
     city = models.ForeignKey(City, on_delete=models.PROTECT, default=1)
     state = models.ForeignKey(State, on_delete=models.PROTECT, default=1)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     # Additional Info
     description = models.TextField(blank=True)
