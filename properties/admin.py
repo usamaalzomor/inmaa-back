@@ -28,9 +28,9 @@ class PropertyImageInline(admin.TabularInline):
 class PropertyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'property_type', 'operation', 'price', 'area', 
-        'rooms', 'bathrooms', 'city', 'state', 'category'
+        'rooms', 'bathrooms', 'city'
     )
-    list_filter = ('operation', 'property_type', 'category', 'city', 'state')
+    list_filter = ('operation', 'property_type', 'city')
     search_fields = ('description',)
     inlines = [PropertyImageInline]
 

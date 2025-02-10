@@ -5,8 +5,8 @@ from core.models import City, State
 
 class PropertyListSerializer(serializers.ModelSerializer):
     city = serializers.CharField(source='city.name', read_only=True)
-    state = serializers.CharField(source='state.name', read_only=True)
-    category = serializers.CharField(source='category.name', read_only=True)
+    state = serializers.CharField(source='city.state.name', read_only=True)
+    category = serializers.CharField(source='property_type.category.name', read_only=True)
     property_type = serializers.CharField(source='property_type.name', read_only=True)
     image = serializers.SerializerMethodField()
     is_in_wishlist = serializers.SerializerMethodField()
@@ -16,6 +16,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'image',
+            'title',
             'operation',
             'price',
             'area',
@@ -72,8 +73,8 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 # Serializer for detailed view (all fields)
 class PropertyDetailSerializer(serializers.ModelSerializer):
     city = property_type = serializers.CharField(source='city.name')
-    state = property_type = serializers.CharField(source='state.name')
-    category = serializers.CharField(source='category.name')
+    state = property_type = serializers.CharField(source='city.state.name')
+    category = serializers.CharField(source='property_type.category.name')
     property_type = serializers.CharField(source='property_type.name')
     # Many-to-many and reverse relations:
     amenities = AmenitySerializer(many=True, read_only=True)
@@ -82,7 +83,7 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Property
-        fields = ['id', 'images', 'category', 'property_type', 'operation', 'price',
+        fields = ['id', 'images', 'title', 'category', 'property_type', 'operation', 'price',
                 'area', 'furniture_included', 'floor', 'rooms', 'bathrooms', 'usage_type',
                 'amenities', 'description', 'year_built', 'city', 'state', 'status',
                 'is_in_wishlist', 'latitude', 'longitude'

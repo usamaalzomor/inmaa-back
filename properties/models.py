@@ -49,7 +49,7 @@ class Property(models.Model):
     ]
 
     # Core Information
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    title = models.CharField(max_length=50, null=False, blank=False, default="property")
     property_type = models.ForeignKey(PropertyType, on_delete=models.PROTECT)
     usage_type = models.CharField(max_length=20, choices=USAGE_CHOICES,
                                 default='residential', null=False, blank=False,
@@ -79,7 +79,6 @@ class Property(models.Model):
     
     # Location
     city = models.ForeignKey(City, on_delete=models.PROTECT, default=1)
-    state = models.ForeignKey(State, on_delete=models.PROTECT, default=1)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
 
@@ -94,7 +93,7 @@ class Property(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['property_type', 'category', 'furniture_included']),
+            models.Index(fields=['property_type', 'furniture_included']),
             models.Index(fields=['price']),
             models.Index(fields=['rooms'])
         ]
